@@ -1,0 +1,152 @@
+@startuml
+' Definicja szablonu dla klasy Graph
+class "Graph<TNode, TEdge>" {
+    - std::vector<TNode> nodes
+    - std::vector<TEdge> edges
+    + void addNode(TNode node)
+    + void addEdge(TEdge edge)
+    + void removeNode(TNode node)
+    + void removeEdge(TEdge edge)
+    + std::vector<TNode> getNeighbors(TNode node)
+    + void notifyObservers()
+}
+
+' Klasa abstrakcyjna dla typów grafów
+abstract class "GraphType" {
+    + virtual bool isDirected() = 0
+    + virtual bool isWeighted() = 0
+}
+
+' Klasy dla typów grafów
+class "DirectedGraph<TNode, TEdge>" {
+    + bool isDirected() override
+    + bool isWeighted() override
+}
+class "UndirectedGraph<TNode, TEdge>" {
+    + bool isDirected() override
+    + bool isWeighted() override
+}
+
+' Wzorzec Value Object
+class "Node<T>" {
+    - T data
+    + Node(T data)
+    + T getData()
+    + void setData(T data)
+}
+class "Edge<T>" {
+    - T metadata
+    - Node<T> source
+    - Node<T> destination
+    + Edge(Node<T> source, Node<T> destination, T metadata)
+    + Node<T> getSource()
+    + Node<T> getDestination()
+    + T getMetadata()
+    + void setMetadata(T metadata)
+}
+
+' Wzorzec Data Mapper
+class "DataMapper<T>" {
+    + T find(int id)
+    + void insert(T entity)
+    + void update(T entity)
+    + void delete(T entity)
+}
+
+' Wzorzec Active Record
+class "ActiveRecord" {
+    + int id
+    + void save()
+    + void delete()
+}
+
+' Klasa dla algorytmów
+class "GraphAlgorithms<TNode, TEdge>" {
+    + std::vector<TNode> findShortestPath(Graph<TNode, TEdge> graph, TNode start, TNode end)
+    + void depthFirstSearch(Graph<TNode, TEdge> graph, TNode start)
+    + void breadthFirstSearch(Graph<TNode, TEdge> graph, TNode start)
+    + Graph<TNode, TEdge> findMinimumSpanningTree(Graph<TNode, TEdge> graph)
+    + bool isConnected(Graph<TNode, TEdge> graph)
+}
+
+' Wzorzec Repository
+class "GraphRepository" {
+    + Graph<TNode, TEdge> findById(int id)
+    + void save(Graph<TNode, TEdge> graph)
+    + void delete(Graph<TNode, TEdge> graph)
+}
+
+' Wzorzec Service Layer
+class "GraphService" {
+    + void addNodeToGraph(Graph<TNode, TEdge> graph, TNode node)
+    + void addEdgeToGraph(Graph<TNode, TEdge> graph, TEdge edge)
+    + std::vector<TNode> getShortestPath(Graph<TNode, TEdge> graph, TNode start, TNode end)
+}
+
+' Wzorzec MVC: Model
+class "GraphModel" {
+    + Graph<TNode, TEdge> graph
+}
+
+' Wzorzec MVC: Controller
+class "GraphController" {
+    + void handleAddNode(TNode node)
+    + void handleAddEdge(TEdge edge)
+    + void handleDisplayGraph()
+}
+
+' Wzorzec MVC: View
+class "GraphView" {
+    + void displayGraph(Graph<TNode, TEdge> graph)
+    + void displayNodeDetails(Node<T> node)
+    + void displayEdgeDetails(Edge<T> edge)
+}
+
+' Command Pattern
+class "Command" {
+    + void execute()
+}
+
+class "PrintMessageCommand" {
+    - std::string message
+    + PrintMessageCommand(std::string message)
+    + void execute() override
+}
+
+class "SumCommand" {
+    - int a
+    - int b
+    + SumCommand(int a, int b)
+    + void execute() override
+}
+
+class "CommandManager" {
+    - std::map<std::string, std::function<Command*()>> commandMap
+    + void addCommand(std::string name, std::function<Command*()> command)
+    + void executeCommand(std::string commandName)
+}
+
+' Relacje między klasami
+"Graph<TNode, TEdge>" "1" *-- "many" "Node<T>"
+"Graph<TNode, TEdge>" "1" *-- "many" "Edge<T>"
+"Edge<T>" "1" o-- "1" "Node<T>"
+
+"GraphAlgorithms<TNode, TEdge>" ..> "Graph<TNode, TEdge>"
+"GraphRepository" ..> "Graph<TNode, TEdge>"
+"GraphService" ..> "Graph<TNode, TEdge>"
+"GraphService" ..> "GraphRepository"
+"GraphController" ..> "GraphService"
+"GraphView" ..> "GraphModel"
+
+"Graph<TNode, TEdge>" ..|> "GraphType"
+"DirectedGraph<TNode, TEdge>" --|> "Graph<TNode, TEdge>"
+"UndirectedGraph<TNode, TEdge>" --|> "Graph<TNode, TEdge>"
+"Node<T>" ..|> "Value Object"
+"Edge<T>" ..|> "Value Object"
+"DataMapper<T>" ..> "ActiveRecord"
+"GraphRepository" ..> "DataMapper<T>"
+
+"Command" <|-- "PrintMessageCommand"
+"Command" <|-- "SumCommand"
+"CommandManager" "1" *-- "many" "Command"
+@enduml
