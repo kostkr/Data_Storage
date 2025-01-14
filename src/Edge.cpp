@@ -7,7 +7,7 @@ class Edge {
     Node<TNode> source;
     Node<TNode> destination;
     TEdge metadata;
-    double weight;  // only exists if HasWeight is true
+    double weight;
 
 public:
     // Constructor without weight (for edges that don't have weight)

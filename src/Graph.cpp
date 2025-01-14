@@ -43,7 +43,6 @@ public:
     void addEdge(const Node<TNode>& source, const Node<TNode>& destination, const TEdge& metadata, double weight = 0.0) {
         int edgeId = currentEdgeId++;
 
-        // If HasWeight is true, pass weight to the Edge constructor
         if constexpr (HasWeight) {
             Edge<TNode, TEdge, true> edge(source, destination, metadata, edgeId, weight);
             edges.push_back(edge);
@@ -51,7 +50,6 @@ public:
                       << edge.getDestination().getData() << " with metadata: " << edge.getMetadata()
                       << " and weight: " << edge.getWeight() << "\n";
         } else {
-            // If HasWeight is false, do not use the weight
             Edge<TNode, TEdge, false> edge(source, destination, metadata, edgeId);
             edges.push_back(edge);
             std::cout << "Edge added: " << edge.getSource().getData() << " -> "
@@ -86,7 +84,7 @@ public:
             std::cout << "Node: " << node.getData() << " ID: " << node.getId() << "\n";
         }
         for (const auto& edge : this->edges) {
-            edge.displayEdge();  // Use the display method of Edge class
+            edge.displayEdge();
         }
     }
 };
