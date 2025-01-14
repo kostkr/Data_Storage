@@ -1,10 +1,10 @@
 template <typename T>
 class Node {
-    const int id;
+    int id;
     T data;
 
 public:
-    Node(const T& data, const int id) : id(id), data(data) {}
+    Node(const T& data, int id) : id(id), data(data) {}
 
     T getData() const {
         return data;
