@@ -91,6 +91,7 @@ class "Node<T>" {
     + Node(T data)
     + T getData()
     + void setData(T data)
+    + void displayNode()
 }
 
 class "Edge<T>" {
@@ -104,6 +105,7 @@ class "Edge<T>" {
     + Node<T> getDestination()
     + T getMetadata()
     + void setMetadata(T metadata)
+    + void displayEdge()
 }
 
 class GraphRepository {
@@ -111,20 +113,13 @@ class GraphRepository {
     + Graph deserialize(std::string& filename)
 }
 
-class GraphView {
-    + void displayGraph(Graph& graph)
-    + void displayNodeDetails(Node<T> node)
-    + void displayEdgeDetails(Edge<T> edge)
-}
-
-Graph "1" *-- "many" "Node<T>"
-Graph "1" *-- "many" "Edge<T>"
+Graph "1" *- "many" "Node<T>"
+Graph "1" *- "many" "Edge<T>"
 "Edge<T>" "many" o-- "1" "Node<T>"
 
 GraphRepository ..> "Graph"
 GraphManager ..> "GraphRepository"
 
-GraphView -> Graph
 
 CommandManager "1" *-- "many" "Command"
 
@@ -134,13 +129,13 @@ CommandManager "1" *-- "many" "Command"
 ' 2) Facade - CLI providing a unified interface to the underlying subsystems like CommandManager
 ' 3) Factory Method - CommandManager provide the REGISTER_COMMAND macro simplifies the process of registering commands with their creators, making the system more flexible and extensible by allowing new commands to be added without modifying existing code.
 ' 4) Plugin - Command provide method execute() to implement new command and next register this in CommandManager. It allows to provide new commands which user requires.
-' 5) Repository - GraphRepository persist graph as file for next use in RAG system.
+' +5) Repository - GraphManager allow manage graphs and switch between them.
 ' +6) Metadata Mapping - The Edge class can use metaprogramming to implement weights, which helps determine the strength of the relationship between pieces of information, enabling more efficient analysis and processing
-' 7) MVC - Graph(model), CommandManager(controller), GraphView(view)
+' 7) MVC - Graph(model), CommandManager(controller), display methods(view)
 ' + 8) Foreign Key Mapping - The Edge class contains a reference to the Node class to establish dependencies between the data.
 ' 9) Serialized LOB - GraphRepository can persist and upload graph as single file to simply process of sharing data between applications.
 ' 10) Application Controller - CommandManager control execution of all incoming commands as a gateway.
-' 11) Data Transfer Object - GraphRepository can generate file to transfer graph tp another application as llama-index for generate index for RAG.
+' + 11) Data Transfer Object - GraphRepository can generate file to transfer graph tp another application as llama-index for generate index for RAG.
 ' 12) Registry - CommandManager allow registry new method to extend application.
 ' 13) Value Object - Command classes can be identified by name but not id.
 ' 14) Special Case -  GraphManage has special case when graph is not initialized or uploaded by user.

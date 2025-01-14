@@ -1,3 +1,5 @@
+#include "iostream"
+
 template <typename T>
 class Node {
     int id;
@@ -20,5 +22,9 @@ public:
 
     bool operator==(const Node& other) const {
         return id == other.id;
+    }
+
+    void displayNode() const {
+        std::cout << "Node ID: " << id << "  " << data << "\n";
     }
 };

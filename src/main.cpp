@@ -22,30 +22,40 @@
 //     return 0;
 // }
 
-# include <iostream>
-#include "GraphManager.cpp"
+
+#include <iostream>
+#include "Graph.cpp"
+#include "GraphRepository.cpp"
 
 int main() {
-    GraphManager graphManager;
+    // Step 1: Create a graph and add some nodes and edges
+    Graph<int, std::string> graph(1, "Test Graph");
+    graph.addNode(1);  // Node 1
+    graph.addNode(2);  // Node 2
+    graph.addNode(3);  // Node 3
 
-    // Create graphs
-    graphManager.createGraph("Graph1");
-    graphManager.createGraph("Graph2");
+    // Add edges between nodes
+    Node<int>* node1 = graph.getNodeById(1);
+    Node<int>* node2 = graph.getNodeById(2);
+    Node<int>* node3 = graph.getNodeById(3);
 
-    // Switch between graphs
-    graphManager.switchGraph("Graph1");
-
-    // Display current graph information
-    auto currentGraph = graphManager.getCurrentGraph();
-    if (currentGraph) {
-        currentGraph->displayGraph();
+    if (node1 && node2) {
+        graph.addEdge(*node1, *node2, "Edge 1-2");
+    }
+    if (node2 && node3) {
+        graph.addEdge(*node2, *node3, "Edge 2-3");
     }
 
-    // Delete a graph
-    graphManager.deleteGraph("Graph2");
+    // Step 2: Serialize the graph to a file
+    GraphRepository<int, std::string> repository;
+    const std::string filename = "graph_data.txt";
+    repository.serialize(graph, filename);
 
-    // Display available graphs
-    graphManager.displayGraphs();
+    // Step 3: Deserialize the graph from the file
+    Graph<int, std::string> loadedGraph = repository.deserialize(filename);
+
+    // Step 4: Display the loaded graph to verify deserialization
+    loadedGraph.displayGraph();
 
     return 0;
 }

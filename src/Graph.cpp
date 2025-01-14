@@ -39,7 +39,6 @@ public:
         std::cout << "Node added: " << node.getData() << " with ID: " << node.getId() << "\n";
     }
 
-    // Add edge with or without weight based on HasWeight
     void addEdge(const Node<TNode>& source, const Node<TNode>& destination, const TEdge& metadata, double weight = 0.0) {
         int edgeId = currentEdgeId++;
 
@@ -78,10 +77,20 @@ public:
         std::cout << "Edges connected to node with ID: " << nodeId << " removed.\n";
     }
 
+    Node<TNode> getNodeById(int nodeId) {
+        for (auto& node : nodes) {
+            if (node.getId() == nodeId) {
+                return &node;
+            }
+        }
+        std::cout << "Node with ID: " << nodeId << " not found.\n";
+        return nullptr;
+    }
+
     void displayGraph() const {
         std::cout << "Graph (ID: " << this->id << ", Name: " << this->name << "):\n";
         for (const auto& node : this->nodes) {
-            std::cout << "Node: " << node.getData() << " ID: " << node.getId() << "\n";
+            node.displayNode();
         }
         for (const auto& edge : this->edges) {
             edge.displayEdge();
