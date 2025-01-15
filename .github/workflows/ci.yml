@@ -16,16 +16,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install GCC with C++23 support
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y g++-13
-          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 100
-          g++ --version
+      - name: Set up Clang 15
+        run: sudo apt-get install clang-16
 
       - name: Install CMake
         run: sudo apt-get install cmake
 
-      - name: Build using CMake with GCC
+      - name: Build using CMake
         run: |
-          cmake -S . -B build -DCMAKE_CXX_COMPILER=g++ && cmake --build build
+          cmake -S . -B build -DCMAKE_CXX_STANDARD=23
+          cmake --build build
