@@ -14,14 +14,14 @@ concept ValidGraph = requires {
 };
 
 class GraphManager {
-    std::map<std::string, std::shared_ptr<Graph<std::string, double> > > graphs;
-    std::shared_ptr<Graph<std::string, double> > currentGraph;
+    std::map<std::string, std::shared_ptr<Graph<std::string, std::string> > > graphs;
+    std::shared_ptr<Graph<std::string, std::string> > currentGraph;
     int nextGraphId = 0;  // Unique ID for each graph
 
 public:
     // Create a graph with a unique ID
     void createGraph(const std::string& graphName) {
-        auto newGraph = std::make_shared<Graph<std::string, double> >(nextGraphId++, graphName);
+        auto newGraph = std::make_shared<Graph<std::string, std::string> >(nextGraphId++, graphName);
         graphs[graphName] = newGraph;
         std::cout << "Graph '" << graphName << "' created with ID: " << newGraph->getId() << "\n";
     }
@@ -49,7 +49,7 @@ public:
     }
 
     // Get the current graph
-    std::shared_ptr<Graph<std::string, double>> getCurrentGraph() const {
+    std::shared_ptr<Graph<std::string, std::string>> getCurrentGraph() const {
         return currentGraph;
     }
 

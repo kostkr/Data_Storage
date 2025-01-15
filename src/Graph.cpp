@@ -10,12 +10,12 @@ class Graph {
     std::vector<Node<TNode>> nodes;
     std::vector<Edge<TNode, TEdge, HasWeight>> edges;
 
-    static int currentNodeId;
-    static int currentEdgeId;
+    int currentNodeId;
+    int currentEdgeId;
 
 public:
-    explicit Graph(int graphId, const std::string& graphName = "default name")
-        : id(graphId), name(graphName) {
+    explicit Graph(int graphId, const std::string& graphName = "default name", int currentNodeId = 0, int currentEdgeId = 0)
+        : id(graphId), name(graphName), currentNodeId(currentNodeId), currentEdgeId(currentEdgeId) {
         std::cout << "Graph '" << this->name << "' (ID: " << this->id << ") created.\n";
     }
 
@@ -56,15 +56,24 @@ public:
         }
     }
 
-    void removeNode(int nodeId) {
-        removeEdgesByNodeId(nodeId);
+    void addEdgeByNodeId(int sourceNodeId, int targetNodeId, const std::string metadata, double weight = 0.0) {
+        Node<TNode>* sourceNode = getNodeById(sourceNodeId);
+        Node<TNode>* targetNode = getNodeById(targetNodeId);
 
+        if (sourceNode && targetNode) {
+            addEdge(*sourceNode, *targetNode, metadata, weight);
+        } else {
+            std::cout << "Can't find node by id.\n";
+        }
+    }
+
+    void removeNode(int nodeId) {
         auto it = std::remove_if(nodes.begin(), nodes.end(), [nodeId](const Node<TNode>& node) {
             return node.getId() == nodeId;
         });
         if (it != nodes.end()) {
+            removeEdgesByNodeId(nodeId);
             nodes.erase(it, nodes.end());
-            std::cout << "Node with ID: " << nodeId << " removed.\n";
         } else {
             std::cout << "Node with ID: " << nodeId << " not found.\n";
         }
@@ -77,7 +86,17 @@ public:
         std::cout << "Edges connected to node with ID: " << nodeId << " removed.\n";
     }
 
-    Node<TNode> getNodeById(int nodeId) {
+    void removeEdgeByNodeIds(int sourceId, int targetId) {
+        edges.erase(std::remove_if(edges.begin(), edges.end(), [sourceId, targetId](const Edge<TNode, TEdge, HasWeight>& edge) {
+            return (edge.getSource().getId() == sourceId && edge.getDestination().getId() == targetId) ||
+                   (edge.getSource().getId() == targetId && edge.getDestination().getId() == sourceId);
+        }), edges.end());
+
+        std::cout << "Edge(s) between nodes with IDs " << sourceId << " and " << targetId << " removed.\n";
+    }
+
+
+    Node<TNode>* getNodeById(int nodeId) {
         for (auto& node : nodes) {
             if (node.getId() == nodeId) {
                 return &node;
@@ -97,9 +116,3 @@ public:
         }
     }
 };
-
-template <typename TNode, typename TEdge, bool HasWeight>
-int Graph<TNode, TEdge, HasWeight>::currentNodeId = 0;
-
-template <typename TNode, typename TEdge, bool HasWeight>
-int Graph<TNode, TEdge, HasWeight>::currentEdgeId = 0;
