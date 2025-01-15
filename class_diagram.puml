@@ -124,18 +124,20 @@ GraphManager ..> "GraphRepository"
 CommandManager "1" *-- "many" "Command"
 
 
+
+
 ' patterns:
 ' 1) Service layer - CommandManager implements the pattern because it acts as an intermediary between the user interface (in this case, the CLI) and the core business logic (represented by the commands and graph operations)
 ' 2) Facade - CLI providing a unified interface to the underlying subsystems like CommandManager
 ' 3) Factory Method - CommandManager provide the REGISTER_COMMAND macro simplifies the process of registering commands with their creators, making the system more flexible and extensible by allowing new commands to be added without modifying existing code.
 ' 4) Plugin - Command provide method execute() to implement new command and next register this in CommandManager. It allows to provide new commands which user requires.
-' +5) Repository - GraphManager allow manage graphs and switch between them.
-' +6) Metadata Mapping - The Edge class can use metaprogramming to implement weights, which helps determine the strength of the relationship between pieces of information, enabling more efficient analysis and processing
+' 5) Repository - GraphManager allow manage graphs and switch between them.
+' 6) Metadata Mapping - The Edge class can use metaprogramming to implement weights, which helps determine the strength of the relationship between pieces of information, enabling more efficient analysis and processing
 ' 7) MVC - Graph(model), CommandManager(controller), display methods(view)
-' + 8) Foreign Key Mapping - The Edge class contains a reference to the Node class to establish dependencies between the data.
+' 8) Foreign Key Mapping - The Edge class contains a reference to the Node class to establish dependencies between the data.
 ' 9) Serialized LOB - GraphRepository can persist and upload graph as single file to simply process of sharing data between applications.
 ' 10) Application Controller - CommandManager control execution of all incoming commands as a gateway.
-' + 11) Data Transfer Object - GraphRepository can generate file to transfer graph tp another application as llama-index for generate index for RAG.
+' 11) Data Transfer Object - GraphRepository can generate file to transfer graph tp another application as llama-index for generate index for RAG.
 ' 12) Registry - CommandManager allow registry new method to extend application.
 ' 13) Value Object - Command classes can be identified by name but not id.
 ' 14) Special Case -  GraphManage has special case when graph is not initialized or uploaded by user.

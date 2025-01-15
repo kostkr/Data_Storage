@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Node.cpp"
+#include "Node.h"
 
 template <typename TNode, typename TEdge, bool HasWeight = false>
 class Edge {
