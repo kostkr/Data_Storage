@@ -1,0 +1,34 @@
+name: C++ Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up C++23 compiler
+        uses: actions/setup-cpp@v1
+        with:
+          compiler: 'clang++'
+          version: '15'
+
+      - name: Install CMake
+        run: sudo apt-get install cmake
+
+      - name: Build using CMake
+        run: |
+          cmake -S . -B build -DCMAKE_CXX_STANDARD=23
+          cmake --build build
+
+      - name: Run application
+        run: ./build/data_storage
