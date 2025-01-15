@@ -110,7 +110,6 @@ class "Edge<T>" {
 
 class GraphRepository {
     + void serialize(Graph<TNode, TEdge> graph)
-    + Graph deserialize(std::string& filename)
 }
 
 Graph "1" *- "many" "Node<T>"
@@ -125,11 +124,10 @@ CommandManager "1" *-- "many" "Command"
 
 
 
-
 ' patterns:
 ' 1) Service layer - CommandManager implements the pattern because it acts as an intermediary between the user interface (in this case, the CLI) and the core business logic (represented by the commands and graph operations)
 ' 2) Facade - CLI providing a unified interface to the underlying subsystems like CommandManager
-' 3) Factory Method - CommandManager provide the REGISTER_COMMAND macro simplifies the process of registering commands with their creators, making the system more flexible and extensible by allowing new commands to be added without modifying existing code.
+' 3) Factory Method - CommandManager provide the REGISTER_COMMAND simplifies the process of registering commands with their creators, making the system more flexible and extensible by allowing new commands to be added without modifying existing code.
 ' 4) Plugin - Command provide method execute() to implement new command and next register this in CommandManager. It allows to provide new commands which user requires.
 ' 5) Repository - GraphManager allow manage graphs and switch between them.
 ' 6) Metadata Mapping - The Edge class can use metaprogramming to implement weights, which helps determine the strength of the relationship between pieces of information, enabling more efficient analysis and processing

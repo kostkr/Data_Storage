@@ -38,10 +38,13 @@ public:
         return id;
     }
 
+    bool hasWeight() const {
+        return HasWeight;
+    }
+
     // Only available if HasWeight is true
     double getWeight() const {
-        static_assert(HasWeight, "Edge does not have weight.");
-        return weight;
+        return HasWeight ? weight : 0.0;
     }
 
     bool operator==(const Edge& other) const {

@@ -1,6 +1,7 @@
 #pragma once
 #include "GraphManager.h"
 #include "CommandManager.h"
+#include "GraphRepository.h"
 #include "CreateGraphCommand.cpp"
 #include "DeleteGraphCommand.cpp"
 #include "SwitchGraphCommand.cpp"
@@ -11,14 +12,16 @@
 #include "DisplayGraphCommand.cpp"
 #include "RemoveNodeCommand.cpp"
 #include "RemoveEdgeCommand.cpp"
+#include "SerializeGraphCommand.cpp"
 
 class CLI {
     GraphManager& graphManager;
     CommandManager& commandManager;
+    GraphRepository<std::string, std::string>& repository;
 
 public:
-    CLI(GraphManager& manager, CommandManager& cmdManager)
-        : graphManager(manager), commandManager(cmdManager) {}
+    CLI(GraphManager& manager, CommandManager& cmdManager, GraphRepository<std::string, std::string>& repository)
+        : graphManager(manager), commandManager(cmdManager), repository(repository) {}
 
     void run() {
         commandManager.registerCommand("create_graph", [this]() {
@@ -116,6 +119,12 @@ public:
             return new RemoveEdgeCommand(graphManager, sourceId, targetId);
         });
 
+        commandManager.registerCommand("serialize_graph", [this]() {
+            std::string file;
+            std::cout << "Enter file: ";
+            std::cin >> file;
+            return new SerializeGraphCommand<std::string, std::string>(graphManager, repository, file.append(".txt"));
+        });
 
         std::string command;
         while (true) {

@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <vector>
 #include <string>
@@ -23,8 +24,20 @@ public:
         return this->id;
     }
 
+    void setId(int newId) {
+        this->id = newId;
+    }
+
     std::string getName() const {
         return this->name;
+    }
+
+    const std::vector<Edge<TNode, TEdge, HasWeight>>& getEdges() const {
+        return edges;
+    }
+
+    const std::vector<Node<TNode>>& getNodes() const {
+        return nodes;
     }
 
     void setName(const std::string& newName) {
