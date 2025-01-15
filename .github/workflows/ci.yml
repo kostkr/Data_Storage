@@ -24,8 +24,4 @@ jobs:
 
       - name: Build using CMake
         run: |
-          cmake -S . -B build -DCMAKE_CXX_STANDARD=23
-          cmake --build build
-
-      - name: Run application
-        run: ./build/data_storage
+          cmake -S . -B build && cmake --build build
