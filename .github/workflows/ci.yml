@@ -16,11 +16,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up C++23 compiler
-        uses: actions/setup-cpp@v1
-        with:
-          compiler: 'clang++'
-          version: '15'
+      - name: Set up Clang 15
+        run: sudo apt-get install clang-15
 
       - name: Install CMake
         run: sudo apt-get install cmake
