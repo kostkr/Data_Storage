@@ -1,6 +1,10 @@
 # Data Collector for RAG
 
--[Overview](#overview)
+This project is a Data Collector system built for the RAG (Retrieval-Augmented Generation). It is designed to gather, manage, and process data that can be used for Retrieval-Augmented Generation tasks.
+RAG combines information retrieval with large language models to improve the quality and relevance of generated content.
+The system uses graph-based structures to represent and manage data, enabling advanced analytics and retrieval capabilities.
+
+## Overview
 
 - [Key Principles](#key-principles)
 - [Run project](#run-project)
@@ -9,12 +13,6 @@
 - [What Has Been Done in the Project](#what-has-been-done-in-the-project)
 - [Achievements](#achievements)
 - [Future Steps](#future-steps)
-
-## Overview
-
-This project is a Data Collector system built for the RAG (Retrieval-Augmented Generation). It is designed to gather, manage, and process data that can be used for Retrieval-Augmented Generation tasks.
-RAG combines information retrieval with large language models to improve the quality and relevance of generated content.
-The system uses graph-based structures to represent and manage data, enabling advanced analytics and retrieval capabilities.
 
 ## Key Principles
 
