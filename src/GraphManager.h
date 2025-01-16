@@ -2,6 +2,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <memory>
 #include "Graph.cpp"
 
 template <typename TNode, typename TEdge>

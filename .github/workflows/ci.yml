@@ -16,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Clang 15
+      - name: Set up Clang 16
         run: sudo apt-get install clang-16
 
       - name: Install CMake
