@@ -4,7 +4,7 @@
 
 - [Key Principles](#key-principles)
 - [Run project](#run-project)
-- []
+- [Class diagram](#class-diagram)
 - [What Was Used in the Project](#what-was-used-in-the-project)
 - [What Has Been Done in the Project](#what-has-been-done-in-the-project)
 - [Achievements](#achievements)
