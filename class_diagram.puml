@@ -71,9 +71,9 @@ class GraphManager {
     +void displayGraphs()
 }
 
-GraphManager --> Graph
+GraphManager --> "Graph<TNode, TEdge>"
 
-class Graph {
+class "Graph<TNode, TEdge>" {
     int id
     string name
     + std::vector<TNode> nodes
@@ -83,6 +83,8 @@ class Graph {
     + void removeNode(TNode node)
     + void removeEdge(TEdge edge)
     + void displayGraph()
+    + Node<TNode>* getNodeById(int NodeId)
+    + void addEdgeByNodeId(int sourceNodeId, int targetNodeId, const std::string metadata, double weight = 0.0)
 }
 
 class "Node<T>" {
@@ -94,34 +96,32 @@ class "Node<T>" {
     + void displayNode()
 }
 
-class "Edge<T>" {
+class "Edge<TNode, TEdge>" {
       int id
-      Node<T> source
-      Node<T> destination
-      T metadata
+      Node<TNode> source
+      Node<TEdge> destination
+      TEdge metadata
       double weight // optional
-    + Edge(Node<T> source, Node<T> destination, T metadata)
-    + Node<T> getSource()
-    + Node<T> getDestination()
-    + T getMetadata()
-    + void setMetadata(T metadata)
+    + Edge(Node<TNode> source, Node<T> destination, T metadata)
+    + Node<TNode> getSource()
+    + Node<TNode> getDestination()
+    + TEdge getMetadata()
+    + void setMetadata(TEdge metadata)
     + void displayEdge()
 }
 
-class GraphRepository {
-    + void serialize(Graph<TNode, TEdge> graph)
+class "GraphRepository" {
+    + void serialize(Graph<TNode, TEdge> graph, (std::string fileName))
 }
 
-Graph "1" *- "many" "Node<T>"
-Graph "1" *- "many" "Edge<T>"
-"Edge<T>" "many" o-- "1" "Node<T>"
+"Graph<TNode, TEdge>" "1" *- "many" "Node<T>"
+"Graph<TNode, TEdge>" "1" *- "many" "Edge<TNode, TEdge>"
+"Edge<TNode, TEdge>" "many" o-- "1" "Node<T>"
 
-GraphRepository ..> "Graph"
-GraphManager ..> "GraphRepository"
-
+GraphRepository ..> "Graph<TNode, TEdge>"
+CLI --> "GraphRepository"
 
 CommandManager "1" *-- "many" "Command"
-
 
 
 ' patterns:
@@ -136,8 +136,8 @@ CommandManager "1" *-- "many" "Command"
 ' 9) Serialized LOB - GraphRepository can persist and upload graph as single file to simply process of sharing data between applications.
 ' 10) Application Controller - CommandManager control execution of all incoming commands as a gateway.
 ' 11) Data Transfer Object - GraphRepository can generate file to transfer graph tp another application as llama-index for generate index for RAG.
-' 12) Registry - CommandManager allow registry new method to extend application.
+' 12) Registry - CommandManager allow registry new method to extend command.
 ' 13) Value Object - Command classes can be identified by name but not id.
 ' 14) Special Case -  GraphManage has special case when graph is not initialized or uploaded by user.
-
+' 15) Unit of work - InitGraphCommand is a compilation of create, switch and display graph.
 @enduml

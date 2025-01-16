@@ -109,7 +109,6 @@ public:
         std::cout << "Edge(s) between nodes with IDs " << sourceId << " and " << targetId << " removed.\n";
     }
 
-
     Node<TNode>* getNodeById(int nodeId) {
         for (auto& node : nodes) {
             if (node.getId() == nodeId) {
