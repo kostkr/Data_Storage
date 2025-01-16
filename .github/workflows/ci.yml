@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,3 +26,9 @@ jobs:
         run: |
           cmake -S . -B build -DCMAKE_CXX_STANDARD=23
           cmake --build build
+
+      - name: Test
+        run: |
+          cd build
+          ctest --output-on-failure
+          cd ..

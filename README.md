@@ -66,3 +66,16 @@ After a successful build, an executable file named `app` will be created in the 
 ```bash
 cmake -S . -B build && cmake --build build && ./build/data_storage
 ```
+### Run tests
+
+```bash
+cd build
+ctest --output-on-failure
+cd ..
+```
+
+### Rerun failed tests with all logs
+
+```bash
+ctest --rerun-failed --output-on-failure
+```
