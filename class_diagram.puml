@@ -125,19 +125,21 @@ CommandManager "1" *-- "many" "Command"
 
 
 ' patterns:
-' 1) Service layer - CommandManager implements the pattern because it acts as an intermediary between the user interface (in this case, the CLI) and the core business logic (represented by the commands and graph operations)
-' 2) Facade - CLI providing a unified interface to the underlying subsystems like CommandManager
-' 3) Factory Method - CommandManager provide the REGISTER_COMMAND simplifies the process of registering commands with their creators, making the system more flexible and extensible by allowing new commands to be added without modifying existing code.
-' 4) Plugin - Command provide method execute() to implement new command and next register this in CommandManager. It allows to provide new commands which user requires.
-' 5) Repository - GraphManager allow manage graphs and switch between them.
-' 6) Metadata Mapping - The Edge class can use metaprogramming to implement weights, which helps determine the strength of the relationship between pieces of information, enabling more efficient analysis and processing
+' 1) Service Layer - The CommandManager acts as a service layer by providing an intermediary between the user interface (CLI) and the core logic (CommandManager). This separation helps to keep the system modular, ensuring that different concerns (CLI, business logic) are managed independently. It allows for easier maintenance and modification of the business logic without affecting the CLI.
+' 2) Facade - The CLI class functions as a facade by offering a unified interface for interacting with multiple subsystems such as GraphManager and CommandManager
+' 3) Unit of work - The InitGraphCommand encapsulates multiple actions (creating, switching, and displaying graphs) into a single command. This unit of work pattern ensures that related operations are executed together, maintaining consistency and improving the clarity of the command logic.
+' 4) Plugin - The Command class with its execute() method is designed to be extended by different command types such as InitGraphCommand, AddNodeCommand, etc. This plugin architecture allows the addition of new commands at runtime without modifying the existing code base, facilitating extensibility and adaptability to changing requirements.
+' 5) Repository - The GraphManager class acts as a repository, managing the creation, deletion, and retrieval of graph instances. This encapsulation of data access helps to centralize data management and simplifies interactions with the data, improving maintainability and scalability.
+' 6) Metadata Mapping - The Edge class incorporates a weight property, which can be used as metadata for edges between nodes. This feature adds flexibility in representing relationships and can be used to optimize graph traversal or analysis operations based on the edge weights.
 ' 7) MVC - Graph(model), CommandManager(controller), display methods(view)
-' 8) Foreign Key Mapping - The Edge class contains a reference to the Node class to establish dependencies between the data.
-' 9) Serialized LOB - GraphRepository can persist and upload graph as single file to simply process of sharing data between applications.
-' 10) Application Controller - CommandManager control execution of all incoming commands as a gateway.
-' 11) Data Transfer Object - GraphRepository can generate file to transfer graph tp another application as llama-index for generate index for RAG.
-' 12) Registry - CommandManager allow registry new method to extend command.
-' 13) Value Object - Command classes can be identified by name but not id.
-' 14) Special Case -  GraphManage has special case when graph is not initialized or uploaded by user.
-' 15) Unit of work - InitGraphCommand is a compilation of create, switch and display graph.
+' 8) Foreign Key Mapping - The Edge class has a reference to the Node class, establishing a relationship between nodes and edges, similar to how foreign keys work in databases. This design ensures that the system can handle complex graph structures and maintain referential integrity.
+' 9) Serialized LOB - he GraphRepository pattern enables the serialization of graph data, allowing it to be saved and shared easily across different applications. This is particularly useful for scenarios where graphs need to be persisted or exchanged between different systems.
+' 10) Application Controller - The CLI as an application controller by managing the execution of commands. This centralizes control flow and allows ease centralize and modularize action and view management
+' 11) Data Transfer Object - The GraphRepository acts as a Data Transfer Object by serializing graphs into files that can be transferred to other systems. This allows the graphs to be shared between applications, improving interoperability and making it easier to use the data in different contexts.
+' 12) Registry - The CommandManager implements a registry pattern by allowing new commands to be registered dynamically. This promotes flexibility and ensures that the system can be easily extended with new commands without modifying the core logic.
+' 13) Special Case -  The GraphManager class handles special cases such as when no graph is initialized or loaded by the user. This ensures that the system can gracefully handle edge cases and provide appropriate feedback or error handling.
+' 14) Factory Method - The CommandManager’s registerCommand() method acts as a factory that simplifies command registration. By providing a mechanism to dynamically register new commands without altering existing code, this pattern enhances the flexibility and scalability of the system, making it easy to extend with additional functionality.
+' 15) Command - Any class that implements the Command interface. This approach allows scripts or actions to be organized into separate classes based on the Command pattern.
+' 16) Transaction Script - Any method of Graph class is separate script for a more understandable transformation of the graph data (Node, Edge and metadata).
+' 17) Layer SuperType -  A Layer SuperType is a pattern where a common superclass defines shared behaviors across various objects in different layers of an application. In this case, the base Command class can be the supertype, and each specific command inherits shared functionality.
 @enduml
